@@ -10,7 +10,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/voice_input?useUnicode=true&characterEncoding=utf-8
     username: root
-    password: wsr200577
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 mybatis:
@@ -21,8 +21,8 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 qiniu:
-  access-key: QL7kqIVJGKN_VsVf2aITg54czSj_ckHV3GCF1jd4
-  secret-key: xVqqUY2tdGgEMTNzq1yBM1WvuK8iruNVHBv9sKum
+  access-key:
+  secret-key:
   asr:
     url: http://yitu-audio.qiniuapi.com/v2/asr
 
