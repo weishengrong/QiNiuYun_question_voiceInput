@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: QiNiuYun_VoiceInput
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/voice_input?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: wsr200577
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.qiniuyun_voiceinput.model.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+qiniu:
+  access-key: QL7kqIVJGKN_VsVf2aITg54czSj_ckHV3GCF1jd4
+  secret-key: xVqqUY2tdGgEMTNzq1yBM1WvuK8iruNVHBv9sKum
+  asr:
+    url: http://yitu-audio.qiniuapi.com/v2/asr
+
+vosk:
+  model-path: ${VOSK_MODEL_PATH:models/vosk-model-small-cn-0.22}
+  sample-rate: 16000
+
+asr:
+  default-engine: vosk
+
+audio:
+  upload-dir: ${AUDIO_UPLOAD_DIR:./uploads/audio}
+
+server:
+  port: 8080

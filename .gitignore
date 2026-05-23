@@ -1,0 +1,48 @@
+# --- OS ---
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# --- IDE ---
+.idea/
+*.iml
+*.iws
+.vscode/
+.project
+.classpath
+.settings
+.factorypath
+*.springBeans
+
+# --- Java / Maven (QiNiuYun_VoiceInput) ---
+target/
+*.class
+*.jar
+*.war
+*.log
+logs/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# --- Node / Vite (frontend) ---
+node_modules/
+dist/
+dist-ssr/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Project runtime ---
+uploads/
+models/
+.env
+*.pid
+
+# --- System ---
+*.dll
+*.exe
+*.so

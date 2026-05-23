@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.qiniuyun_voiceinput.mapper.VoiceRecordMapper">
+
+    <resultMap id="BaseResultMap" type="VoiceRecord">
+        <id column="id" property="id"/>
+        <result column="audio_name" property="audioName"/>
+        <result column="audio_size" property="audioSize"/>
+        <result column="audio_duration" property="audioDuration"/>
+        <result column="audio_format" property="audioFormat"/>
+        <result column="original_text" property="originalText"/>
+        <result column="edited_text" property="editedText"/>
+        <result column="engine_type" property="engineType"/>
+        <result column="confidence" property="confidence"/>
+        <result column="status" property="status"/>
+        <result column="error_msg" property="errorMsg"/>
+        <result column="client_ip" property="clientIp"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <sql id="BaseColumns">
+        id, audio_name, audio_size, audio_duration, audio_format,
+        original_text, edited_text, engine_type, confidence,
+        status, error_msg, client_ip, created_at, updated_at
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO voice_record (audio_name, audio_size, audio_duration, audio_format,
+                                  original_text, edited_text, engine_type, confidence,
+                                  status, error_msg, client_ip)
+        VALUES (#{audioName}, #{audioSize}, #{audioDuration}, #{audioFormat},
+                #{originalText}, #{editedText}, #{engineType}, #{confidence},
+                #{status}, #{errorMsg}, #{clientIp})
+    </insert>
+
+    <update id="updateById">
+        UPDATE voice_record
+        <set>
+            <if test="originalText != null">original_text = #{originalText},</if>
+            <if test="editedText != null">edited_text = #{editedText},</if>
+            <if test="engineType != null">engine_type = #{engineType},</if>
+            <if test="confidence != null">confidence = #{confidence},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="errorMsg != null">error_msg = #{errorMsg},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumns"/> FROM voice_record WHERE id = #{id}
+    </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumns"/>
+        FROM voice_record
+        ORDER BY created_at DESC
+        LIMIT #{offset}, #{size}
+    </select>
+
+    <select id="selectCount" resultType="long">
+        SELECT COUNT(*) FROM voice_record
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM voice_record WHERE id = #{id}
+    </delete>
+
+</mapper>
