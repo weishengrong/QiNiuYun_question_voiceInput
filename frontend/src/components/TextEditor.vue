@@ -53,7 +53,7 @@ function clearText() {
       ref="editorRef"
       class="editor-area"
       contenteditable="true"
-      :data-placeholder="text ? '' : '录音后识别结果将展示在这里...'"
+      :data-placeholder="text ? '' : '开始说话，识别结果会实时出现在这里...'"
       @input="onInput"
     ></div>
     <div class="editor-toolbar">
@@ -75,10 +75,10 @@ function clearText() {
 }
 
 .editor-area {
-  min-height: 120px;
-  max-height: 240px;
-  padding: 16px;
-  border: 1px solid #e5e7eb;
+  min-height: 168px;
+  max-height: 320px;
+  padding: 18px;
+  border: 1px solid #dbe3ea;
   border-radius: 8px;
   font-size: 16px;
   line-height: 1.7;
@@ -91,8 +91,8 @@ function clearText() {
 }
 
 .editor-area:focus {
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  border-color: #0f766e;
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
 }
 
 .editor-area:empty::before {
@@ -109,18 +109,18 @@ function clearText() {
 
 .tool-btn {
   padding: 6px 16px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #dbe3ea;
   border-radius: 6px;
   background: #fff;
   cursor: pointer;
   font-size: 13px;
-  color: #374151;
+  color: #334155;
   transition: all 0.15s;
 }
 
 .tool-btn:hover:not(:disabled) {
-  background: #f3f4f6;
-  border-color: #d1d5db;
+  background: #f8fafc;
+  border-color: #cbd5e1;
 }
 
 .tool-btn:disabled {

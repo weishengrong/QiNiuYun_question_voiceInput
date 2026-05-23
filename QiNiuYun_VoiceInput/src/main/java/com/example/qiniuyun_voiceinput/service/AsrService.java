@@ -1,7 +1,6 @@
 package com.example.qiniuyun_voiceinput.service;
 
 import com.example.qiniuyun_voiceinput.service.asr.AsrEngine;
-import com.example.qiniuyun_voiceinput.service.asr.QiniuAsrEngine;
 import com.example.qiniuyun_voiceinput.service.asr.VoskAsrEngine;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,21 +8,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class AsrService {
 
-    private final QiniuAsrEngine qiniuAsrEngine;
     private final VoskAsrEngine voskAsrEngine;
 
-    @Value("${asr.default-engine:qiniu}")
+    @Value("${asr.default-engine:vosk}")
     private String defaultEngine;
-
-    private final Map<String, AsrEngine> engineMap = new ConcurrentHashMap<>();
 
     public AsrEngine.AsrResult recognize(File audioFile, String audioFormat, String engineType) {
         AsrEngine engine = getEngine(engineType);
@@ -32,7 +26,7 @@ public class AsrService {
             engine = getEngine(defaultEngine);
         }
         if (engine == null) {
-            engine = qiniuAsrEngine;
+            engine = voskAsrEngine;
         }
 
         log.info("使用ASR引擎: {} 识别音频: {}", engine.getEngineType(), audioFile.getName());
@@ -41,7 +35,6 @@ public class AsrService {
 
     private AsrEngine getEngine(String engineType) {
         return switch (engineType != null ? engineType : defaultEngine) {
-            case "qiniu" -> qiniuAsrEngine;
             case "vosk" -> voskAsrEngine;
             default -> null;
         };

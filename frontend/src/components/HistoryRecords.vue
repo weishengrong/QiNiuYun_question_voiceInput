@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { fetchRecords, updateRecordText, deleteRecord, getAudioUrl } from '../api'
 import type { RecordVO, RecordPageData } from '../types'
 
@@ -38,7 +38,7 @@ function goPage(p: number) {
   loadRecords()
 }
 
-const totalPages = () => Math.ceil(pageData.value.total / pageData.value.size)
+const totalPages = computed(() => Math.ceil(pageData.value.total / pageData.value.size))
 
 function startEdit(record: RecordVO) {
   editingId.value = record.id
@@ -203,7 +203,7 @@ onMounted(loadRecords)
       </div>
     </div>
 
-    <div v-if="totalPages() > 1" class="pagination">
+    <div v-if="totalPages > 1" class="pagination">
       <button
         class="page-btn"
         :disabled="pageData.page <= 1"
@@ -212,11 +212,11 @@ onMounted(loadRecords)
         上一页
       </button>
       <span class="page-info">
-        {{ pageData.page }} / {{ totalPages() }}
+        {{ pageData.page }} / {{ totalPages }}
       </span>
       <button
         class="page-btn"
-        :disabled="pageData.page >= totalPages()"
+        :disabled="pageData.page >= totalPages"
         @click="goPage(pageData.page + 1)"
       >
         下一页

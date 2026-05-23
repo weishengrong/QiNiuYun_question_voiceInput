@@ -13,12 +13,11 @@
     <artifactId>QiNiuYun_VoiceInput</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>QiNiuYun_VoiceInput</name>
-    <description>七牛云语音输入法 - Voice Input Method</description>
+    <description>Voice Input Method</description>
 
     <properties>
         <java.version>17</java.version>
         <mybatis.version>4.0.1</mybatis.version>
-        <qiniu.sdk.version>7.19.0</qiniu.sdk.version>
         <vosk.version>0.3.45</vosk.version>
     </properties>
 
@@ -26,6 +25,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
@@ -42,12 +45,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>com.qiniu</groupId>
-            <artifactId>qiniu-java-sdk</artifactId>
-            <version>${qiniu.sdk.version}</version>
         </dependency>
 
         <dependency>

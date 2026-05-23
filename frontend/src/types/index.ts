@@ -33,4 +33,5 @@ export interface RecordPageData {
 export interface EngineOption {
   label: string
   value: string
+  mode?: 'stream' | 'upload'
 }

@@ -10,7 +10,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/voice_input?useUnicode=true&characterEncoding=utf-8
     username: root
-    password:
+    password: wsr200577
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 mybatis:
@@ -20,11 +20,16 @@ mybatis:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-qiniu:
-  access-key:
-  secret-key:
+stepfun:
   asr:
-    url: http://yitu-audio.qiniuapi.com/v2/asr
+    token: ${STEPFUN_API_TOKEN:}
+    stream-url: wss://api.stepfun.com/v1/realtime/asr/stream
+    model: step-asr-1.1-stream
+    language: zh
+    sample-rate: 16000
+    silence-duration-ms: 800
+    vad-threshold: 0.5
+    enable-itn: true
 
 vosk:
   model-path: ${VOSK_MODEL_PATH:models/vosk-model-small-cn-0.22}

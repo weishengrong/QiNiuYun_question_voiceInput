@@ -37,7 +37,7 @@ Content-Type: multipart/form-data
 | 参数 | 类型 | 必填 | 说明 |
 |------|------|------|------|
 | audio | File | 是 | 音频文件(wav/mp3/webm/ogg) |
-| engine | String | 否 | 识别引擎: qiniu(默认) / vosk |
+| engine | String | 否 | 识别引擎: vosk |
 
 **Response (200)**
 
@@ -48,7 +48,7 @@ Content-Type: multipart/form-data
   "data": {
     "recordId": 1,
     "originalText": "今天天气真不错，适合出去走走。",
-    "engineType": "qiniu",
+    "engineType": "vosk",
     "duration": 5.2,
     "confidence": 95.50
   }
@@ -67,9 +67,37 @@ Content-Type: multipart/form-data
 
 ---
 
-## 2. 音频管理
+## 2. 实时语音识别
 
-### 2.1 获取音频文件
+### 2.1 StepFun 流式 ASR
+
+前端通过 WebSocket 连接后端代理，后端携带 `STEPFUN_API_TOKEN` 连接 StepFun。
+
+```
+WS /ws/asr/stepfun
+```
+
+前端发送：
+
+```json
+{
+  "type": "audio.append",
+  "audio": "Base64编码后的16k PCM分片"
+}
+```
+
+后端返回：
+
+```json
+{ "type": "delta", "text": "今天" }
+{ "type": "completed", "text": "今天天气真不错。" }
+```
+
+---
+
+## 3. 音频管理
+
+### 3.1 获取音频文件
 
 通过 recordId 获取原始音频文件，用于前端播放验证。
 
@@ -88,9 +116,9 @@ Binary audio data
 
 ---
 
-## 3. 历史记录
+## 4. 历史记录
 
-### 3.1 获取历史记录列表
+### 4.1 获取历史记录列表
 
 分页查询历史识别记录。
 
@@ -120,7 +148,7 @@ GET /api/records?page=1&size=20
         "id": 1,
         "originalText": "今天天气真不错",
         "editedText": null,
-        "engineType": "qiniu",
+        "engineType": "vosk",
         "duration": 3.2,
         "status": 1,
         "createdAt": "2025-05-23 14:30:00"
@@ -130,7 +158,7 @@ GET /api/records?page=1&size=20
 }
 ```
 
-### 3.2 获取单条记录详情
+### 4.2 获取单条记录详情
 
 **Request**
 
@@ -140,7 +168,7 @@ GET /api/records/{id}
 
 **Response (200)** — 同上 data 结构中的单条记录
 
-### 3.3 更新编辑后的文本
+### 4.3 更新编辑后的文本
 
 用户在前端编辑识别结果后保存。
 
@@ -167,7 +195,7 @@ Content-Type: application/json
 }
 ```
 
-### 3.4 删除记录
+### 4.4 删除记录
 
 **Request**
 
@@ -187,7 +215,7 @@ DELETE /api/records/{id}
 
 ---
 
-## 4. 错误码说明
+## 5. 错误码说明
 
 | code | 说明 |
 |------|------|
@@ -203,7 +231,7 @@ DELETE /api/records/{id}
 
 ---
 
-## 5. 前端录音参数建议
+## 6. 前端录音参数建议
 
 前端使用 `MediaRecorder` API 时的推荐配置：
 

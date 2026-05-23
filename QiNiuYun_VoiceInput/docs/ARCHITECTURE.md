@@ -12,7 +12,7 @@
 | MySQL | 8.0+ | 数据库 |
 | Maven | 3.9+ | 构建工具 |
 | Lombok | 最新 | Java 代码简化 |
-| Qiniu Java SDK | 7.x | 七牛云 API 调用 |
+| Java WebSocket Client | JDK 17+ | StepFun 流式 ASR 代理 |
 | Vosk | 0.3.45 | 离线语音识别 |
 
 ### 前端
@@ -47,7 +47,7 @@
 │  │  Service 层                                      │   │
 │  │  ┌──────┴──────────┴──────────────────────┐      │   │
 │  │  │  AsrService (策略模式)                    │      │   │
-│  │  │  ├── QiniuAsrEngine (七牛云)             │      │   │
+│  │  │  ├── StepFun WebSocket Proxy            │      │   │
 │  │  │  └── VoskAsrEngine (Vosk离线)           │      │   │
 │  │  ├──────────────────────────────────────────┤      │   │
 │  │  │  AudioService (音频处理)                  │      │   │
@@ -71,7 +71,8 @@
 com.example.qiniuyun_voiceinput/
 ├── QiNiuYunVoiceInputApplication.java    # 启动类
 ├── config/
-│   ├── QiniuConfig.java                  # 七牛云配置
+│   ├── StepFunAsrConfig.java             # StepFun ASR 配置
+│   ├── WebSocketConfig.java              # WebSocket 配置
 │   ├── WebConfig.java                    # Web 配置 (CORS等)
 │   └── VoskConfig.java                   # Vosk 配置
 ├── controller/
@@ -80,8 +81,9 @@ com.example.qiniuyun_voiceinput/
 ├── service/
 │   ├── asr/
 │   │   ├── AsrEngine.java                # ASR 引擎接口
-│   │   ├── QiniuAsrEngine.java           # 七牛云实现
 │   │   └── VoskAsrEngine.java            # Vosk 实现
+│   ├── websocket/
+│   │   └── StepFunAsrWebSocketHandler.java # StepFun 流式代理
 │   ├── AsrService.java                   # ASR 服务门面
 │   ├── AudioService.java                 # 音频处理服务
 │   └── RecordService.java               # 历史记录服务
@@ -111,11 +113,11 @@ com.example.qiniuyun_voiceinput/
                     ┌────────────┴────────────┐
                     │                         │
          ┌──────────▼──────┐       ┌──────────▼──────┐
-         │ QiniuAsrEngine   │       │ VoskAsrEngine    │
-         │ (七牛云短语音API) │       │ (本地Vosk模型)    │
+         │ StepFun Stream   │       │ VoskAsrEngine    │
+         │ (流式ASR代理)     │       │ (本地Vosk模型)    │
          └─────────────────┘       └─────────────────┘
 ```
 
 - `AsrService` 根据配置或用户选择，动态注入对应引擎
-- 默认使用七牛云 API，Vosk 作为离线兜底
-- 引擎可通过配置项 `asr.engine=qiniu|vosk` 切换
+- 默认使用 StepFun 实时流式 ASR，Vosk 作为离线兜底
+- 上传识别引擎可通过配置项 `asr.default-engine=vosk` 设置

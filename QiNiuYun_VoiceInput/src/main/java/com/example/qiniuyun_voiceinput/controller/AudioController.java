@@ -57,7 +57,7 @@ public class AudioController {
             record.setAudioName(originalName);
             record.setAudioSize(audioFile.getSize());
             record.setAudioFormat(audioFormat);
-            record.setEngineType(engine != null ? engine : "qiniu");
+            record.setEngineType(engine != null ? engine : "vosk");
             record.setStatus(0);
             record.setClientIp(request.getRemoteAddr());
 

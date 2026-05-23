@@ -29,7 +29,7 @@ export async function uploadAudio(
   engine: string,
 ): Promise<ApiResult<AsrResponse>> {
   const form = new FormData()
-  form.append('audio', audio, 'recording.webm')
+  form.append('audio', audio, getAudioFileName(audio))
   form.append('engine', engine)
   const res = await http.post<ApiResult<AsrResponse>>(
     '/asr/recognize',
@@ -39,6 +39,13 @@ export async function uploadAudio(
     },
   )
   return res.data
+}
+
+function getAudioFileName(audio: Blob): string {
+  if (audio.type.includes('wav')) return 'recording.wav'
+  if (audio.type.includes('ogg')) return 'recording.ogg'
+  if (audio.type.includes('mpeg') || audio.type.includes('mp3')) return 'recording.mp3'
+  return 'recording.webm'
 }
 
 export async function fetchRecords(
